@@ -3,13 +3,6 @@ export const SET_DEPOSIT = 'SET_DEPOSIT';
 export const SET_DURATION = 'SET_DURATION';
 export const SET_MONTHLY_EMI = 'SET_MONTHLY_EMI';
 
-export interface UserValues {
-    amount: number;
-    deposit: number;
-    duration: number;
-    monthlyEMI: number;
-}
-
 interface SetAmountAction {
   type: typeof SET_AMOUNT
   payload: number

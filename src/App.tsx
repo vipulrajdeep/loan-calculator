@@ -1,13 +1,25 @@
 import * as React from 'react';
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
+
+import { IApplicationState } from './redux/application-store-state';
 import Component from './components/calculator';
 import './App.css';
 
-function App() {
+interface MainProps {
+  store: Store<IApplicationState>
+}
+
+const App: React.FC<MainProps> = ({ store }) => {
   return (
-    <div>
-      <Component/>
-    </div>
-  );
+    <Provider store={store}>
+      <React.StrictMode>
+        <div>
+          <Component />
+        </div>
+      </React.StrictMode>
+    </Provider>
+  )
 }
 
 export default App;

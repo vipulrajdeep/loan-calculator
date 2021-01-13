@@ -23,6 +23,6 @@ export function setDuration(duration: number): LoanCalculatorActionsTypes {
 
 export function setMonthlyEMI(): LoanCalculatorActionsTypes {
   return {
-    type: SET_DURATION
+    type: SET_MONTHLY_EMI
   }
 }

@@ -1,13 +1,13 @@
 import {
-    UserValues,
     LoanCalculatorActionsTypes,
     SET_AMOUNT,
     SET_DEPOSIT,
     SET_DURATION,
     SET_MONTHLY_EMI
 } from './calculator.types';
+import { IUserValues } from './calculator';
 
-const initialState: UserValues = {
+const initialState: IUserValues = {
     amount: 0,
     deposit: 0,
     duration: 12,
@@ -17,7 +17,7 @@ const initialState: UserValues = {
 export function loanCalculatorReducer(
     state = initialState,
     action: LoanCalculatorActionsTypes
-): UserValues {
+): IUserValues {
     switch (action.type) {
         case SET_AMOUNT:
             return {
@@ -44,7 +44,7 @@ export function loanCalculatorReducer(
     }
 }
 
-const calculateMonthlyEMI = (userValues: UserValues): number => {
+const calculateMonthlyEMI = (userValues: IUserValues): number => {
     const monthlyEMI: number = (userValues.amount - userValues.deposit) / userValues.duration;
     return Math.round(monthlyEMI);
 }
