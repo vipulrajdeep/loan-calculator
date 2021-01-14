@@ -1,39 +1,21 @@
-import * as React from 'react';
+import React, {Dispatch} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { IUserValues } from './../redux/calculator/calculator'; 
+import { IApplicationState } from './../redux/application-store-state';
+import { LoanCalculatorActionsTypes } from './../redux/calculator/calculator.types';
 
-interface UserValues {
-    amount: number;
-    deposit: number;
-    duration: number;
-    monthlyEMI: number;
-}
 
-const Calculator: React.FC = () => {
-    // Below will change to use proper type definitions
-    const [userValues, setUserValues] = React.useState<UserValues>({
-        amount: 0,
-        deposit: 0,
-        duration: 12,
-        monthlyEMI: 0
-    })
+const Calculator = () => {
+    const { amount, duration, deposit, monthlyEMI } = useSelector((state: IApplicationState) => state.userValues);
+    const calculatorDispatch = useDispatch<Dispatch<LoanCalculatorActionsTypes>>();
 
     const handleSubmitValues = (e: any): void => {
-        setUserValues({
-            ...userValues, 
-            monthlyEMI: calculateMonthlyEMI(userValues)
-        });     
+        calculatorDispatch({type: 'SET_MONTHLY_EMI'})
         e.preventDefault();
     }
 
     const handleInputChange = (e: any) => {
-        setUserValues({ 
-            ...userValues, 
-            [e.target.name]: e.target.value 
-        });
-    }
-
-    const calculateMonthlyEMI = (userValues: UserValues): number => {
-        const monthlyEMI: number = (userValues.amount - userValues.deposit)/userValues.duration;
-        return Math.round(monthlyEMI);
+        calculatorDispatch({type: e.target.name, payload: e.target.value});
     }
 
     return (
@@ -45,9 +27,9 @@ const Calculator: React.FC = () => {
                         <label>Amount:</label>
                         <input
                             type='text'
-                            name='amount'
+                            name='SET_AMOUNT'
                             placeholder='Loan amount'
-                            value={userValues.amount}
+                            value={amount}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -55,9 +37,9 @@ const Calculator: React.FC = () => {
                         <label>Deposit:</label>
                         <input
                             type='text'
-                            name='deposit'
+                            name='SET_DEPOSIT'
                             placeholder='Deposit amount'
-                            value={userValues.deposit}
+                            value={deposit}
                             onChange={handleInputChange}
                             />
                     </div>
@@ -65,23 +47,23 @@ const Calculator: React.FC = () => {
                         <label id='label'>Months:</label>
                         <input
                             type='radio'
-                            name='duration'
+                            name='SET_DURATION'
                             value={12}
-                            checked={userValues.duration == 12}
+                            checked={duration == 12}
                             onChange={handleInputChange}
                             /> 12
                         <input
                             type='radio'
-                            name='duration'
+                            name='SET_DURATION'
                             value={24}
-                            checked={userValues.duration == 24}
+                            checked={duration == 24}
                             onChange={handleInputChange}
                             /> 24
                         <input
                             type='radio'
-                            name='duration'
+                            name='SET_DURATION'
                             value={36}
-                            checked={userValues.duration == 36}
+                            checked={duration == 36}
                             onChange={handleInputChange}
                             /> 36
                     </div>
@@ -90,22 +72,22 @@ const Calculator: React.FC = () => {
             </form>
             <div>
                 {
-                    userValues.amount ? <p>Loan amount: {userValues.amount}</p> : null
+                    amount ? <p>Loan amount: {amount}</p> : null
                 }
             </div>
             <div>
                 {
-                    userValues.deposit ? <p>Deposit: {userValues.deposit}</p> : null
+                    deposit ? <p>Deposit: {deposit}</p> : null
                 }
             </div>
             <div>
                 {
-                    userValues.duration ? <p>Duration: {userValues.duration}</p> : null
+                    duration ? <p>Duration: {duration}</p> : null
                 }
             </div>
             <div className="result">
                 {
-                    userValues.monthlyEMI ? <p>Monthly EMI: {userValues.monthlyEMI}</p> : null
+                    monthlyEMI ? <p>Monthly EMI: {monthlyEMI}</p> : null
                 }
             </div>
         </div>
